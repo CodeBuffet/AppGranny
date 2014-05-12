@@ -23,7 +23,7 @@
   ],
   "preferGlobal": "true",
   "bin": {
-    "granny" : "src/lib/app-granny.coffee"
+    "granny": "src/lib/app-granny.coffee"
   },
   "main": "lib/app-granny",
   "engines": {
@@ -43,5 +43,8 @@
     "mocha-cakes": "~0.9.0",
     "grunt": "~0.4.4"
   },
-  "keywords": []
+  "keywords": [],
+  "dependencies": {
+    "node-getopt": "~0.2.3"
+  }
 }
