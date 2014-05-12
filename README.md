@@ -1,4 +1,4 @@
-# app-granny [![Build Status](https://secure.travis-ci.org/Pet0r/AppGranny.png?branch=master)](http://travis-ci.org/Pet0r/AppGranny)
+#AppGranny [![Build Status](https://travis-ci.org/CodeBuffet/AppGranny.svg?branch=master)](https://travis-ci.org/CodeBuffet/AppGranny)
 
 Cross-Platform, client-side mobile and web backends. Does to mobile what nodejs did to the server.
 
