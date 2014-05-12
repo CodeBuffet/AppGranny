@@ -2,6 +2,11 @@
 
 require 'mocha-cakes'
 
+sys = require("sys")
+exec = require("child_process").exec
+fs = require "fs"
+rimraf = require "rimraf"
+
 app_granny = require('../lib/app-granny')
 
 ###
@@ -62,18 +67,28 @@ Should assertions:
   user.should.be.a('object').and.have.property('name', 'tj')
 ###
 
-Feature "New Feature",
-  "In order to use cool feature",
-  "as a new user",
-  "I want do include this", ->
+Feature "Compiling",
+  "Running 'grannyc' on the example project."
+  ->
 
-    Scenario "Singing", ->
+    Scenario "Compiling for web", ->
 
-      voice = null
+      Given "I am a awesome programmer dude", ->
+      stdout = ""
+      When "I run the compiler for web", (done) ->
+        # executes `pwd`
+        child = exec("export GRANNY_MODE=debug && grannyc -o sexy_web_app -i example/ -p web", (error, stdout_, stderr) ->
+          stdout = stdout_
+          sys.print "stdout: " + stdout
+          sys.print "stderr: " + stderr
+          console.log "exec error: " + error  if error isnt null
+          done()
+          return
+        )
 
-      Given "I am a awesome singing", ->
-      When "I sing", ->
-        voice = app_granny.awesome()
-      Then "it should sound awesome", ->
-        voice.should.eql 'awesome'
+      Then "Compiler must have succeeded", ->
+        stdout.should.include 'Compilation finished!'
+
+      Then "I delete the demo-project directory, because we know it's succeeded", (done) ->
+        rimraf("./sexy_web_app/", done)
 
