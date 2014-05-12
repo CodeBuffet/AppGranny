@@ -1,0 +1,47 @@
+{
+  "name": "app-granny",
+  "description": "Cross-Platform, client-side mobile and web backends. Does to mobile what nodejs did to the server.",
+  "version": "0.1.0",
+  "homepage": "https://github.com/CodeBuffet/AppGranny",
+  "author": {
+    "name": "Peter Wilemsen",
+    "email": "peter@codebuffet.co",
+    "url": "http://codebuffet.co"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:CodeBuffet/AppGranny.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CodeBuffet/AppGranny/issues"
+  },
+  "licenses": [
+    {
+      "type": "GPLv2",
+      "url": "https://github.com/CodeBuffet/AppGranny/blob/master/LICENSE-GPLv2"
+    }
+  ],
+  "preferGlobal": "true",
+  "bin": {
+    "granny" : "src/lib/app-granny.coffee"
+  },
+  "main": "lib/app-granny",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt-contrib-watch": "~0.5.0",
+    "grunt-contrib-coffee": "~0.7.0",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-coffeelint": "~0.0.7",
+    "grunt-simple-mocha": "~0.4.0",
+    "should": "~1.2.2",
+    "matchdep": "~0.1.2",
+    "mocha-cakes": "~0.9.0",
+    "grunt": "~0.4.4"
+  },
+  "keywords": []
+}
