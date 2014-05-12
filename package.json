@@ -23,7 +23,8 @@
   ],
   "preferGlobal": "true",
   "bin": {
-    "granny": "src/lib/app-granny.coffee"
+    "granny": "src/lib/app-granny.coffee",
+    "grannyc": "src/lib/compiler/grannyc.coffee"
   },
   "main": "lib/app-granny",
   "engines": {
@@ -45,6 +46,8 @@
   },
   "keywords": [],
   "dependencies": {
-    "node-getopt": "~0.2.3"
+    "node-getopt": "~0.2.3",
+    "mkdirp": "~0.5.0",
+    "tosource": "~0.1.1"
   }
 }

@@ -14,18 +14,23 @@ Licensed under the GPLv2 license.
 # parse command line
 opt = require("node-getopt").create([
   [
-    "s"
-    ""
-    "short option."
+    "c"
+    "create"
+    "Create a new project"
+  ]
+  [
+    "o"
+    "output"
+    "Specifies output directory. If not exists, it will be created."
   ]
   [
     "h"
     "help"
-    "display this help"
+    "Display this help"
   ]
 ]).setHelp(
     "Usage: granny [OPTION]\n" +
-    "App Granny - Cross platfrom client-side backends!\n" +
+    "App Granny - Cross platform client-side backends!\n" +
     "\n" +
     "[[OPTIONS]]\n" +
     "\n" +
