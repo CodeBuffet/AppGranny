@@ -1,7 +1,7 @@
 /*
 
-AppGranny bootstrap file
-Everything exposed in app will be mapped to the platform your compiling for!
+    AppGranny bootstrap file
+    Everything exposed in app will be mapped to the platform your compiling for!
 
 */
 
@@ -9,7 +9,8 @@ app = {
 
 };
 
-lol = 5;
+var lollol;
+lol = 5 / 2;
 
 function IShouldntBeAccessible() {
     // IShouldntBeAccessible should become hidden in a local scope as it's not exposed in the app object.
@@ -19,6 +20,10 @@ function IShouldntBeAccessible() {
 app.app = {fuuu:5}
 
 app.say = function(str) {
+    IShouldntBeAccessible();
+
+    lollol = "fuuuuuuuuu";
+
     // the Granny object may be used for stripping code ahead-of-time,
     // it stays accessible at runtime!
     var prefix = "Granny on " + Granny.platform + " Says";
@@ -36,10 +41,6 @@ if(Granny.platform == "android") {
     app.androidOnlyFunction = function(lol) {
         console.log ("Woooooooow - you are a android guy aren't you?")
     }
-
-    app.random = function(max, min) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    };
 }
 
 app.random = function(max, min) {

@@ -9,11 +9,15 @@ recursion = ""
 recurseStr = "|__ "
 depth = 0
 
-compileObj = (obj, inApp = false) ->
+compileObj = (obj, inApp = false, skipKeys = []) ->
   result = ""
   for k of obj
+    if skipKeys.indexOf(k) != -1
+      continue
+
     childObj = obj[k]
     childType = (typeof childObj)
+
     log recursion + k + " type: " + childType
 
     if ["number", "string", "function"].indexOf(childType) != -1
@@ -28,6 +32,9 @@ compileObj = (obj, inApp = false) ->
 
     if childType == "function"
       result += "#{k} = #{toSource childObj};"
+
+    if childType == "undefined"
+      result += "var #{k};"
 
     if childType == "object"
       if k == "app" and depth == 0
@@ -45,12 +52,11 @@ module.exports =
   class WebExporter extends BaseExporter
 
     compile: (options, callback) ->
-      # Put app: manually in here because we dont want to export other stuff in @main
       compiled = "(function() {#{compileObj @main}})();"
       if options.mode == COMPILER_MODE.development
         compiled = beautify(compiled, { indent_size: 2 })
       else
-        attrs = { fromString: yes }
+        attrs = { fromString: yes, compress: { global_defs: { platform: options.platform } } }
         compiled = UglifyJS.minify(compiled, attrs).code;
 
       fs.writeFile path.resolve(options.output, "main.js"), compiled, (err) ->
