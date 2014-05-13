@@ -72,6 +72,11 @@ compile = (options) ->
       log "executing mainFile: #{mainFile}"
 
       sandbox = {}
+      sandbox.Granny = {
+        platform: options.platform
+      }
+      Object.freeze sandbox.Granny
+
       fs.readFile(mainFile, (err, data) ->
         data = data.toString()
         vm.runInNewContext(data, sandbox)
@@ -84,9 +89,10 @@ compile = (options) ->
           new exporter(sandbox).compile(options, callback)
       )
 
-
 #if opt.options.output and opt.options.input and opt.options.platform
-extend(opt.options, {
+opt.options = extend({
   mode: COMPILER_MODE.development
-})
+}, opt.options)
+
+log "options: ", opt.options
 compile(opt.options)
