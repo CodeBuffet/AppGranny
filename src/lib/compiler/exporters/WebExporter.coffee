@@ -9,12 +9,16 @@ recursion = ""
 recurseStr = "|__ "
 depth = 0
 
-compileObj = (obj) ->
+compileObj = (obj, inApp = false) ->
   result = ""
   for k of obj
     childObj = obj[k]
     childType = (typeof childObj)
     log recursion + k + " type: " + childType
+
+    if ["number", "string", "function"].indexOf(childType) != -1
+      if !inApp
+        result += "var "
 
     if childType == "number"
       result += "#{k} = #{childObj};"
@@ -26,15 +30,14 @@ compileObj = (obj) ->
       result += "#{k} = #{toSource childObj};"
 
     if childType == "object"
-      recursion += recurseStr
-      depth++
       if k == "app" and depth == 0
-        result += "#{compileObj childObj}"
+        recursion += recurseStr
+        depth++
+        result += "#{compileObj childObj, true}"
+        depth--
+        recursion = recursion.substring(0, recurseStr.length)
       else
-        result += "#{k} = #{toSource childObj}"
-
-      recursion = recursion.substring(0, recurseStr.length)
-      depth--
+        result += "var #{k} = #{toSource childObj};"
 
   return result
 
@@ -43,7 +46,7 @@ module.exports =
 
     compile: (options, callback) ->
       # Put app: manually in here because we dont want to export other stuff in @main
-      compiled = compileObj @main
+      compiled = "(function() {#{compileObj @main}})();"
       if options.mode == COMPILER_MODE.development
         compiled = beautify(compiled, { indent_size: 2 })
       else

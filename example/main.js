@@ -11,6 +11,11 @@ app = {
 
 lol = 5;
 
+function IShouldntBeAccessible() {
+    // IShouldntBeAccessible should become hidden in a local scope as it's not exposed in the app object.
+    console.log("If you called me directly, something is wrong....")
+}
+
 app.app = {fuuu:5}
 
 app.say = function(str) {
@@ -31,6 +36,10 @@ if(Granny.platform == "android") {
     app.androidOnlyFunction = function(lol) {
         console.log ("Woooooooow - you are a android guy aren't you?")
     }
+
+    app.random = function(max, min) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
 }
 
 app.random = function(max, min) {
