@@ -79,6 +79,7 @@ Feature "Compiling",
         # executes `pwd`
         child = exec("export GRANNY_MODE=debug && grannyc -o sexy_web_app -i example/ -p web", (error, stdout_, stderr) ->
           stdout = stdout_
+          console.log "stdout: #{stdout}"
           console.log "exec error: " + error  if error isnt null
           done()
           return
