@@ -9,3 +9,10 @@ if mode == "debug"
     console.log.apply console, arguments_
 else
   global.log = -> # To the bitbucket!
+
+global.COMPILER_MODE = {
+  production: 'production'
+  development: 'development'
+}
+
+Object.freeze(global.COMPILER_MODE)

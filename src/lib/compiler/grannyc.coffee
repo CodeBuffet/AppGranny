@@ -14,7 +14,9 @@ Licensed under the GPLv2 license.
 globals = require "../globals"
 fs = require "fs"
 path = require "path"
+vm = require('vm')
 mkdirp = require('mkdirp')
+extend = require "extend"
 
 # parse command line
 opt = require("node-getopt").create([
@@ -34,12 +36,17 @@ opt = require("node-getopt").create([
     "Specifies output directory. If not exists, it will be created."
   ]
   [
+    "m"
+    "mode=MODE"
+    "Specifies mode, defaults to development, can be either development or production, when in production mode, more stripping will be done"
+  ]
+  [
     "h"
     "help"
     "Display this help"
   ]
 ]).setHelp(
-    "Usage: granny [OPTION]\n" +
+    "Usage: grannyc [OPTION]\n" +
     "App Granny - Cross platform client-side backends!\n" +
     "\n" +
     "[[OPTIONS]]\n" +
@@ -64,14 +71,22 @@ compile = (options) ->
       mainFile = path.resolve(inputFolder, "main.js")
       log "executing mainFile: #{mainFile}"
 
-      main = require(mainFile)
-      exporter = require("./exporters/#{exporters[options.platform]}")
-      if exporter?
-        callback = ->
-          log "Compilation finished!"
+      sandbox = {}
+      fs.readFile(mainFile, (err, data) ->
+        data = data.toString()
+        vm.runInNewContext(data, sandbox)
+        log "Sandbox: ", sandbox
+        exporter = require("./exporters/#{exporters[options.platform]}")
+        if exporter?
+          callback = ->
+            log "Compilation finished!"
 
-        new exporter(main).compile(options, callback)
+          new exporter(sandbox).compile(options, callback)
+      )
 
 
 #if opt.options.output and opt.options.input and opt.options.platform
+extend(opt.options, {
+  mode: COMPILER_MODE.development
+})
 compile(opt.options)
