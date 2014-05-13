@@ -11,6 +11,7 @@ app = {
 
 var lollol;
 lol = 5 / 2;
+IAmNotSoRandom = Math.random();
 
 function IShouldntBeAccessible() {
     // IShouldntBeAccessible should become hidden in a local scope as it's not exposed in the app object.
