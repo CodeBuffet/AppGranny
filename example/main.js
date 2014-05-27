@@ -5,10 +5,6 @@
 
 */
 
-app = {
-
-};
-
 var lollol;
 lol = 5 / 2;
 IAmNotSoRandom = Math.random();
@@ -17,6 +13,25 @@ function IShouldntBeAccessible() {
     // IShouldntBeAccessible should become hidden in a local scope as it's not exposed in the app object.
     console.log("If you called me directly, something is wrong....")
 }
+
+app.lol = 5;
+
+// Copy from typescript's module example
+(function (app) {
+    (function (Sayings) {
+        var Greeter = (function () {
+            function Greeter(message) {
+                this.greeting = message;
+            }
+            Greeter.prototype.greet = function () {
+                return "Hello, " + this.greeting;
+            };
+            return Greeter;
+        })();
+        Sayings.Greeter = Greeter;
+    })(app.Sayings || (app.Sayings = {}));
+    var Sayings = app.Sayings;
+})(app || (app = {}));
 
 app.app = {fuuu:5}
 

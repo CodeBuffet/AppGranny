@@ -57,6 +57,7 @@ opt = require("node-getopt").create([
 
 exporters = {
   web: "WebExporter"
+  android: "AndroidJavaExporter"
 }
 
 compile = (options) ->
@@ -71,7 +72,9 @@ compile = (options) ->
       mainFile = path.resolve(inputFolder, "main.js")
       log "executing mainFile: #{mainFile}"
 
-      sandbox = {}
+      sandbox = {
+        app: {}
+      }
       sandbox.Granny = {
         platform: options.platform
       }

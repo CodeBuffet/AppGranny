@@ -18,9 +18,8 @@ compileObj = (obj, inApp = false, skipKeys = []) ->
 
     log recursion + k + " type: " + childType
 
-    if ["number", "string", "function"].indexOf(childType) != -1
-      if !inApp
-        result += "var "
+    if !inApp and k != "app"
+      result += "var "
 
     if childType == "number"
       result += "#{k} = #{childObj};"
@@ -30,9 +29,11 @@ compileObj = (obj, inApp = false, skipKeys = []) ->
 
     if childType == "function"
       result += "#{k} = #{toSource childObj};"
+      for k2 of childObj.prototype
+        result += "#{k}.prototype.#{k2} = #{toSource childObj.prototype[k2]}"
 
     if childType == "undefined"
-      result += "var #{k};"
+      result += "#{k};"
 
     if childType == "object"
       if k == "app" and depth == 0
@@ -42,7 +43,8 @@ compileObj = (obj, inApp = false, skipKeys = []) ->
         depth--
         recursion = recursion.substring(0, recurseStr.length)
       else
-        result += "var #{k} = #{toSource childObj};"
+        result += "#{k} = #{toSource childObj};"
+        #Todo, fix prototypes here
 
   return result
 
